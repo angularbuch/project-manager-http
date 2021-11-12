@@ -1,0 +1,34 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Neues Entwickler-Team zusammenstellen",
+      "description": "Das ist wirklich sehr dringend. Bitte so schnell wie möglich darum kümmern...",
+      "tags": [],
+      "state": "IN_PROGRESS",
+      "assignee": {
+        "name": "Christoph Höller",
+        "email": ""
+      }
+    },
+    {
+      "id": 2,
+      "title": "Ersten Prototyp mit Angular entwickeln",
+      "description": "Der Prototyp soll zeigen, wie Routing und HTTP-Anbindung umgesetzt werden können.",
+      "tags": [],
+      "state": "IN_PROGRESS",
+      "assignee": {
+        "name": "Christoph Höller",
+        "email": ""
+      }
+    },
+    {
+      "title": "Test der Websocket-Funktionalität",
+      "description": "Mit Hilfe der Websocket-Funktionalität soll es möglich sein, die Task-Daten über alle Browserfenster hinweg synchron zu halten.",
+      "tags": [],
+      "assignee": {},
+      "id": 5,
+      "state": "BACKLOG"
+    }
+  ]
+}

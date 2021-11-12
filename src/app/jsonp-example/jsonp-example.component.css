@@ -1,0 +1,12 @@
+.results {
+  padding-top: 25px;
+}
+
+.results > div {
+  float: left;
+  padding: 5px;
+}
+
+.results img {
+  height: 159px;
+}

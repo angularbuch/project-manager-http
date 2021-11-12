@@ -1,0 +1,5 @@
+{
+  "apiBaseUrl": "${PJM_API_BASE_URL}",
+  "websocketUrl": "${PJM_WEBSOCKET_URL}"
+}
+
