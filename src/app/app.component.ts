@@ -5,7 +5,7 @@ import {Title} from '@angular/platform-browser';
 import {filter} from 'rxjs/operators';
 
 @Component({
-  selector: 'ch-root',
+  selector: 'pjm-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.css']
 })

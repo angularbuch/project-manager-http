@@ -20,6 +20,7 @@ export class LoginService {
       localStorage.setItem(CURRENT_USER, JSON.stringify(user));
       return true;
     }
+    return false;
   }
 
   logout() {

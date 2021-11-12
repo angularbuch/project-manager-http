@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Data } from '@angular/router';
 import {Title} from '@angular/platform-browser';
 
 
@@ -18,7 +18,7 @@ export class SettingsComponent {
 
   ngOnInit() {
 
-    this.activatedRoute.data.subscribe((data) => {
+    this.activatedRoute.data.subscribe((data: Data) => {
       console.log(data); // Object {title: 'Einstellungen'}
     });
 

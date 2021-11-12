@@ -14,7 +14,7 @@ export class TaskOverviewComponent {
 
   model = model;
 
-  task?: Task ;
+  task!: Task ;
 
   constructor(private route: ActivatedRoute,
               private taskService: TaskService) {

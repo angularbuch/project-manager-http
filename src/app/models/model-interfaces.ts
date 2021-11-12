@@ -43,7 +43,7 @@ export const stateGroups = [
   }
 ];
 
-export const stateTexts = {
+export const stateTexts: any = {
   'BACKLOG': 'Backlog',
   'IN_PROGRESS': 'In Bearbeitung',
   'TEST': 'Im Test',

@@ -1,8 +1,8 @@
 import {Task} from '../../models/model-interfaces';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 const BASE_URL = 'http://localhost:3000/api/tasks/';
 

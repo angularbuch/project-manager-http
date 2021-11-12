@@ -1,13 +1,12 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import {Location} from '@angular/common';
 import {NgForm} from '@angular/forms';
 import * as model from '../../models/model-interfaces';
 import {createInitialTask, Task} from '../../models/model-interfaces';
 import {TaskService} from '../../services/task-service/task.service';
-import {Subscription} from 'rxjs';
-import {filter, map, mergeMap} from 'rxjs/internal/operators';
+import {filter, map, mergeMap} from 'rxjs/operators';
 
 
 @Component({
@@ -15,7 +14,7 @@ import {filter, map, mergeMap} from 'rxjs/internal/operators';
   templateUrl: './edit-task.component.html',
   styleUrls: ['./edit-task.component.css']
 })
-export class EditTaskComponent implements OnInit, OnDestroy {
+export class EditTaskComponent implements OnInit {
 
   model = model;
 
@@ -24,8 +23,6 @@ export class EditTaskComponent implements OnInit, OnDestroy {
   saved = false;
 
   @ViewChild(NgForm) form!: NgForm;
-
-  subscription!: Subscription;
 
   constructor(private route: ActivatedRoute,
               private taskService: TaskService,
@@ -47,19 +44,15 @@ export class EditTaskComponent implements OnInit, OnDestroy {
       });
     */
 
-    this.subscription = this.route.params.pipe(
-      map(params => params['id']),
+    this.route.params.pipe(
+      map((params: Params) => params['id']),
       filter(id => id !== undefined),
-      mergeMap(id => this.taskService.getTask(id)))
+      mergeMap((id: string) => this.taskService.getTask(id)))
       .subscribe((task: Task) => {
         this.task = task;
         this.task.assignee = this.task.assignee || {};
       });
 
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 
   addTag() {

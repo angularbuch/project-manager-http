@@ -24,7 +24,7 @@ import {AUTH_ENABLED} from './app.tokens';
     Title,
     TaskService,
     routingProviders,
-    {provide: AUTH_ENABLED, useValue: true}
+    {provide: AUTH_ENABLED, useValue: false}
 
   ],
   declarations: [AppComponent,

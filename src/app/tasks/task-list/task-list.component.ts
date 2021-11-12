@@ -18,11 +18,11 @@ export class TaskListComponent implements OnInit {
 
   selectedTaskId: string | number | null = null;
 
-  private tasks$!: Observable<Task[]>;
+  tasks$!: Observable<Task[]>;
 
   private tasks: Task[] = [];
 
-  private searchTerm = new FormControl();
+  searchTerm = new FormControl();
 
   private errorHandler = (error: any) => {
     console.log('Es ist ein Fehler aufgetreten', error);
@@ -79,7 +79,7 @@ export class TaskListComponent implements OnInit {
 
 
     this.route.queryParams.subscribe(params => {
-      const query = decodeURI(params.query ?? '');
+      const query = decodeURI(params['query'] ?? '');
       this.searchTerm.setValue(query);
       this.tasks$ = this.taskService.findTasks(query).pipe(catchError(this.errorHandler));
     });
