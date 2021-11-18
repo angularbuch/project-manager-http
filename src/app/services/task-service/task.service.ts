@@ -4,7 +4,7 @@ import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common
 import {map} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-const BASE_URL = 'http://localhost:3000/api/tasks/';
+const BASE_URL = 'http://localhost:3000/api/tasks';
 
 @Injectable()
 export class TaskService {
@@ -30,7 +30,7 @@ export class TaskService {
   }
 
   getTask(id: number | string): Observable<Task> {
-    return this.http.get<Task>(BASE_URL + id);
+    return this.http.get<Task>(`${BASE_URL}/${id}`);
   }
 
   createTask(task: Task): Observable<Task> {
@@ -46,19 +46,19 @@ export class TaskService {
   }
 
   updateTask(task: Task): Observable<Task> {
-    return this.http.put<Task>(BASE_URL + task.id, task);
+    return this.http.put<Task>(`${BASE_URL}/${task.id}`, task);
   }
 
 
   deleteTask(task: Task): Observable<HttpResponse<any>> {
-    return this.http.delete<Task>(BASE_URL + task.id, {
+    return this.http.delete<Task>(`${BASE_URL}/${task.id}`, {
       observe: 'response'
     });
   }
 
   saveTask(task: Task) {
     const method = task.id ? 'PUT' : 'POST';
-    return this.http.request<Task>(method, BASE_URL + (task.id || ''), {
+    return this.http.request<Task>(method, `${BASE_URL}/${task.id ?? ''}`, {
       body: task
     });
   }
@@ -84,6 +84,6 @@ export class TaskService {
 
   updateState(id: number, state: string): Observable<Task> {
     const body = {state: state};
-    return this.http.patch<Task>(BASE_URL + id, body);
+    return this.http.patch<Task>(`${BASE_URL}/${id}`, body);
   }
 }
