@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
 
-import { FormControl } from '@angular/forms';
-import { Task } from '../../models/model-interfaces';
-import { TaskService } from '../../services/task-service/task.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, filter } from 'rxjs/operators';
+import {FormControl} from '@angular/forms';
+import {Task} from '../../models/model-interfaces';
+import {TaskService} from '../../services/task-service/task.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable, of, tap} from 'rxjs';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {catchError, filter, map, mergeMap} from 'rxjs/operators';
 
 @Component({
   selector: 'ch-task-list',
@@ -30,15 +30,15 @@ export class TaskListComponent implements OnInit {
   }
 
   constructor(private taskService: TaskService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private location: Location,
-    private http: HttpClient) {
+              private router: Router,
+              private route: ActivatedRoute,
+              private location: Location,
+              private http: HttpClient) {
   }
 
   ngOnInit() {
 
-    const t: Task = { id: 1 };
+    const t: Task = {id: 1};
 
     this.taskService.checkTasks().subscribe(headers => {
       console.log('Die Größe des Inhalts beträgt', headers.get('Content-Length'));
@@ -46,23 +46,21 @@ export class TaskListComponent implements OnInit {
 
     // 1.Version: Verwendung von http in der Komponente
 
-    this.http.get<Task[]>(`http://localhost:3000/api/taskss`)
-      .subscribe(tasks => {
-        this.tasks = tasks;
-      },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-          switch (error.status) {
-            case 404:
-              console.log('Der Endpunkt wurde nicht gefunden', error);
-              break;
-            case 500:
-              console.log('Server-Fehler beim Laden der Aufgaben', error);
-              break;
-            default:
-              console.log('Irgendetwas anderes ist schief gelaufen', error);
-          }
-        });
+    this.http.get<Task[]>(`http://localhost:3000/api/taskss`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        switch (error.status) {
+          case 404:
+            console.log('Der Endpunkt wurde nicht gefunden', error);
+            break;
+          case 500:
+            console.log('Server-Fehler beim Laden der Aufgaben', error);
+            break;
+          default:
+            console.log('Irgendetwas anderes ist schief gelaufen', error);
+        }
+        return of([]);
+      })
+    ).subscribe(tasks => this.tasks = tasks);
 
 
     this.taskService.loadAllTasks().subscribe((tasks) => {
@@ -74,7 +72,7 @@ export class TaskListComponent implements OnInit {
     this.taskService.loadTasksWithFullResponse().subscribe(response => {
       const totalCount = response.headers.get('X-Total-Count');
       console.log(`Anzahl aller Tasks: ${totalCount}`);
-      this.tasks = response.body as Task[];
+      this.tasks = response.body!;
     });
 
 
@@ -83,6 +81,15 @@ export class TaskListComponent implements OnInit {
       this.searchTerm.setValue(query);
       this.tasks$ = this.taskService.findTasks(query).pipe(catchError(this.errorHandler));
     });
+
+    /* mit mergeMap Unterstützung */
+    /*
+    this.tasks$ = this.route.queryParams.pipe(
+      map(params => decodeURI(params['query'] ?? '')),
+      tap(query =>this.searchTerm.setValue(query)),
+      mergeMap(query => this.taskService.findTasks(query))
+    );
+    */
 
   }
 

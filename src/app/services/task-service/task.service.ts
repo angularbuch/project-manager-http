@@ -50,7 +50,7 @@ export class TaskService {
   }
 
 
-  deleteTask(task: Task): Observable<HttpResponse<any>> {
+  deleteTask(task: Task): Observable<HttpResponse<Task>> {
     return this.http.delete<Task>(`${BASE_URL}/${task.id}`, {
       observe: 'response'
     });
