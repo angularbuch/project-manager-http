@@ -8,7 +8,7 @@ export interface User {
 }
 
 export interface Task {
-  id?: number;
+  id?: string;
   title?: string;
   description?: string;
   tags?: Tag[];
@@ -21,6 +21,7 @@ export const states = ['BACKLOG', 'IN_PROGRESS', 'TEST', 'COMPLETED'];
 
 export function createInitialTask(): Task {
   return {
+    id: '',
     assignee: {},
     tags: [],
     state: states[0]

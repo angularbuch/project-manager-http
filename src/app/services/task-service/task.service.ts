@@ -2,7 +2,7 @@ import {Task} from '../../models/model-interfaces';
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 
 const BASE_URL = 'http://localhost:3000/api/tasks';
 
@@ -13,7 +13,7 @@ export class TaskService {
   }
 
   checkTasks(): Observable<HttpHeaders> {
-    return this.http.head('http://localhost:3000/api/tasks', {
+    return this.http.head(BASE_URL, {
       observe: 'response',
       responseType: 'text'
     }).pipe(map(response => response.headers));
@@ -33,7 +33,7 @@ export class TaskService {
     return this.http.get<Task>(`${BASE_URL}/${id}`);
   }
 
-  createTask(task: Task): Observable<Task> {
+  createTask(task: Omit<Task, 'id'>): Observable<Task> {
     return this.http.post<Task>(BASE_URL, task);
   }
 
@@ -50,8 +50,8 @@ export class TaskService {
   }
 
 
-  deleteTask(task: Task): Observable<HttpResponse<Task>> {
-    return this.http.delete<Task>(`${BASE_URL}/${task.id}`, {
+  deleteTask(task: Task): Observable<HttpResponse<void>> {
+    return this.http.delete<void>(`${BASE_URL}/${task.id}`, {
       observe: 'response'
     });
   }
@@ -82,8 +82,12 @@ export class TaskService {
     return this.http.get<Task[]>(BASE_URL, {params: searchParams});
   }
 
-  updateState(id: number, state: string): Observable<Task> {
-    const body = {state: state};
+  updateState(id: string, body: Pick<Task, 'state'>): Observable<Task> {
     return this.http.patch<Task>(`${BASE_URL}/${id}`, body);
   }
+
+  updatePartial(id: string, body: Partial<Task>): Observable<Task> {
+    return this.http.patch<Task>(`${BASE_URL}/${id}`, body);
+  };
+
 }

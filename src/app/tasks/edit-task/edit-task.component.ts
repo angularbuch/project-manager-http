@@ -66,6 +66,7 @@ export class EditTaskComponent implements OnInit {
   }
 
   saveTask() {
+    this.taskService.createTask(this.task).subscribe();
     this.taskService.saveTask(this.task).subscribe(task => {
       this.saved = true;
       const relativeUrl = this.router.url.includes('edit') ? '../..' : '..';

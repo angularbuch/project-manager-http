@@ -38,8 +38,6 @@ export class TaskListComponent implements OnInit {
 
   ngOnInit() {
 
-    const t: Task = {id: 1};
-
     this.taskService.checkTasks().subscribe(headers => {
       console.log('Die Größe des Inhalts beträgt', headers.get('Content-Length'));
     });
@@ -94,10 +92,11 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteTask(task: Task) {
-    //  this.taskService.updateState(task.id, 'COMPLETED').subscribe(_ => {
+    //this.taskService.updateState(task.id!, {state: 'COMPLETED'}).subscribe();
+    //this.taskService.updatePartial(task.id!, {state: 'COMPLETED', title: 'Neuer Titel'}).subscribe();
     //    console.log(_);
     //  });
-    this.taskService.deleteTask(task).subscribe(_ => {
+    this.taskService.deleteTask(task).subscribe(() => {
       this.findTasks(this.searchTerm.value);
     });
   }
